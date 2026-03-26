@@ -1,0 +1,95 @@
+#include <stdio.h>
+
+char getGrade(float average) {
+    if (average >= 90) return 'A';
+    else if (average >= 80) return 'B';
+    else if (average >= 70) return 'C';
+    else if (average >= 60) return 'D';
+    else return 'F';
+}
+
+void displayMenu() {
+    printf("\nMENU - GRADE SYSTEM\n");
+    printf("1. Enter Marks\n");
+    printf("2. Calculate Total & Average\n");
+    printf("3. View Results\n");
+    printf("4. Exit\n");
+}
+
+int main() {
+    int choice;
+    int n = 0;
+    int marks[50];
+    int sum = 0;
+    float average = 0;
+    int calculated = 0;
+
+    do {
+        displayMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+            case 1:
+                do {
+                    printf("Enter number of subjects (1-50): ");
+                    scanf("%d", &n);
+                    if (n <= 0 || n > 50)
+                        printf("Invalid number of subjects. Try again.\n");
+                } while (n <= 0 || n > 50);
+
+                sum = 0;
+                calculated = 0;
+
+                for (int i = 0; i < n; i++) {
+                    int m;
+                    do {
+                        printf("Enter marks for subject %d (0-100): ", i + 1);
+                        scanf("%d", &m);
+                        if (m < 0 || m > 100)
+                            printf("Invalid marks. Enter a value between 0 and 100.\n");
+                    } while (m < 0 || m > 100);
+
+                    marks[i] = m;
+                    sum += m;
+                }
+
+                printf("Marks entered successfully.\n");
+                break;
+
+            case 2:
+                if (n == 0) {
+                    printf("No marks entered yet. Please choose option 1 first.\n");
+                } else {
+                    average = sum / (float)n;
+                    calculated = 1;
+                    printf("Total and average calculated.\n");
+                }
+                break;
+
+            case 3:
+                if (n == 0) {
+                    printf("No data to display. Enter marks first.\n");
+                } else if (!calculated) {
+                    printf("Please calculate total and average first (Option 2).\n");
+                } else {
+                    printf("\nRESULTS\n");
+                    printf("Total Marks : %d\n", sum);
+                    printf("Average     : %.2f\n", average);
+                    printf("Grade       : %c\n", getGrade(average));
+                }
+                break;
+
+            case 4:
+                printf("Exiting program...\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
